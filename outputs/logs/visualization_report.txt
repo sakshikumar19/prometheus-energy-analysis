@@ -1,0 +1,13 @@
+VISUALIZATION SUMMARY REPORT
+Generated: 2025-10-27 15:08:50
+
+Time Window: 12 hours
+
+Metric: node_load1
+  Data points: 2109127
+  Mean: 29.4156
+  Std Dev: 48.2215
+  Min: 0.0000
+  Max: 219.2800
+  Median: 0.4200
+

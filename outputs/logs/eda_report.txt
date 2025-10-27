@@ -1,0 +1,41 @@
+EXPLORATORY DATA ANALYSIS REPORT
+Generated: 2025-10-27 14:42:57
+Number of metrics: 3
+
+SUMMARY STATISTICS
+            Metric        N      Mean  Median       Std  Min    Max    Q1    Q3
+        node_load1 10543014 28.779836    0.42 47.040968  0.0 241.48  0.04 51.88
+node_procs_running 10543014 31.819026    4.00 46.596976  1.0 519.00  1.00 54.00
+rPDULoadStatusLoad  2849502 83.777940   80.00 48.360142  0.0 247.00 50.00 98.00
+
+ANOMALY DETECTION (3x IQR method)
+
+node_load1:
+  Anomalies: 40 (0.00%)
+  Bounds: [-155.48, 207.40]
+
+node_procs_running:
+  Anomalies: 249 (0.00%)
+  Bounds: [-158.00, 213.00]
+
+rPDULoadStatusLoad:
+  Anomalies: 234 (0.01%)
+  Bounds: [-94.00, 242.00]
+
+ANOMALY DETECTION (Z-score method)
+node_load1: 80 anomalies (0.00%)
+node_procs_running: 507 anomalies (0.00%)
+rPDULoadStatusLoad: 260 anomalies (0.01%)
+
+
+node_load1:
+  - Coefficient of Variation: 1.635 (high variability)
+  - Skewness: 1.383 (right-skewed, occasional high values)
+
+node_procs_running:
+  - Coefficient of Variation: 1.464 (high variability)
+  - Skewness: 1.372 (right-skewed, occasional high values)
+
+rPDULoadStatusLoad:
+  - Coefficient of Variation: 0.577 (high variability)
+  - Skewness: 0.592 (right-skewed, occasional high values)

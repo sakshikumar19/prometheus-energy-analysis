@@ -1,0 +1,47 @@
+ENERGY EFFICIENCY ANALYSIS REPORT
+Generated: 2025-10-27 14:51:41
+
+Load Metric: node_load1
+Power Metric: rPDULoadStatusLoad
+Total data points: 3601
+
+EFFICIENCY DEFINITION
+Efficiency = node_load1 / rPDULoadStatusLoad
+Higher efficiency indicates more computational load per unit of power.
+
+LOAD STATE THRESHOLDS
+Low Load:    load <= 28.57
+Medium Load: 28.57 < load <= 29.13
+High Load:   load > 29.13
+
+OVERALL EFFICIENCY STATISTICS
+Mean Efficiency: 0.3436
+Median Efficiency: 0.3453
+Std Dev: 0.0096
+Min: 0.2507
+Max: 0.3642
+25th percentile: 0.3355
+75th percentile: 0.3504
+
+EFFICIENCY BY LOAD STATE
+            efficiency                                           load            power        
+                  mean     std  median     min     max count     mean     std     mean     std
+load_state                                                                                    
+High Load       0.3526  0.0053  0.3527  0.3337  0.3642  1188  29.4091  0.2401  83.4089  0.9206
+Low Load        0.3332  0.0061  0.3338  0.2507  0.3449  1189  28.0530  0.4170  84.1957  0.9938
+Medium Load     0.3449  0.0050  0.3458  0.3223  0.3554  1224  28.8753  0.1629  83.7326  1.0826
+
+KEY INSIGHTS
+Correlation (Load vs Power): -0.2953
+Correlation (Load vs Efficiency): 0.9081
+Correlation (Power vs Efficiency): -0.6680
+
+Mean Efficiency by State:
+  Low Load: 0.3332
+  Medium Load: 0.3449
+  High Load: 0.3526
+
+Optimal Operating Range:
+  Top 25% efficiency threshold: 0.3504
+  Optimal load range: [28.79, 30.14]
+  Optimal power range: [81.86, 84.35]
