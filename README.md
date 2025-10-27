@@ -63,7 +63,7 @@ python src/eda_report.py \
   --metrics node_load1 node_procs_running rPDULoadStatusLoad
 ```
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 prometheus-energy-profiler/
@@ -76,13 +76,13 @@ prometheus-energy-profiler/
 └── docs/            # Documentation
 ```
 
-## 📊 Available Metrics
+## Available Metrics
 
 - `node_load1`: System 1-minute load average
 - `node_procs_running`: Number of running processes
 - `rPDULoadStatusLoad`: PDU power load measurements
 
-## 🔧 Script Parameters
+## Script Parameters
 
 All scripts support:
 
@@ -90,6 +90,6 @@ All scripts support:
 - `--output PATH`: Custom output location
 - `--verbose`: Detailed logging
 
-## 📄 License
+## License
 
 Apache 2.0 - See LICENSE file
