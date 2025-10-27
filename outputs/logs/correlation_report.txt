@@ -1,0 +1,15 @@
+CORRELATION ANALYSIS REPORT
+Generated: 2025-10-27 14:33:30
+
+Metric 1: node_load1
+Metric 2: rPDULoadStatusLoad
+Samples analyzed: 3601
+
+CORRELATION COEFFICIENTS
+Pearson correlation: r = -0.2953
+  p-value: 2.12e-73
+Spearman correlation: p = -0.4306
+  p-value: 1.61e-162
+
+INTERPRETATION
+Weak negative correlation
