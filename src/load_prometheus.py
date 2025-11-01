@@ -1,16 +1,8 @@
-"""
-Converts a Prometheus JSON (.json.gz) file into a pandas DataFrame.
-
-Usage:
-    python prom_to_df.py path/to/file.json.gz
-"""
-
-import sys
 import gzip
 import json
 import pandas as pd
 
-def prom_to_df(file_path):
+def load_prometheus_file(file_path):
     with gzip.open(file_path, "rt", encoding="utf-8") as f:
         data = json.load(f)
 
@@ -31,15 +23,3 @@ def prom_to_df(file_path):
         df["datetime"] = pd.to_datetime(df["timestamp"], unit="s")
 
     return df
-
-
-if __name__ == "__main__":
-    if len(sys.argv) < 2:
-        print("Usage: python prom_to_df.py path/to/file.json.gz")
-        sys.exit(1)
-
-    input_path = sys.argv[1]
-    df = prom_to_df(input_path)
-
-    print(f"\nLoaded {len(df)} rows from {input_path}\n")
-    print(df.head())
