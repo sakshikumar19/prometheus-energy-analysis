@@ -1,10 +1,15 @@
-# Run: python -m src.cli.run_pair_analysis --file1 data/disk_io.json.gz --file2 data/power.json.gz --window 30
+# Per-machine analysis (12-hour window default)
+# python -m src.cli.run_pair_analysis --file1 data/node_disk_io_time_seconds_total/1754002800.0.json.gz --file2 data/rPDULoadStatusLoad/1754002800.0.json.gz --machine "bohr3226.tier2.hep.manchester.ac.uk:9100" 
+
+# Full analysis (all machines, no machine filter)
 # python -m src.cli.run_pair_analysis --file1 data/node_disk_io_time_seconds_total/1754002800.0.json.gz --file2 data/rPDULoadStatusLoad/1754002800.0.json.gz --window 30
 
 import argparse
+import pandas as pd
 from src.load_prometheus import load_prometheus_file
 from src.sync_metrics import align_metrics
 from src.correlations import compute_correlations, lag_correlation, rate_correlation
+from src.analyze_pair import analyze_pair
 from src.rolling_stats import rolling_corr
 from src.visualization import plot_timeseries, plot_scatter, plot_lag_analysis, plot_rolling_corr
 import os
@@ -15,23 +20,27 @@ def main():
     p.add_argument("--file2", required=True)
     p.add_argument("--window", type=int, default=30)
     p.add_argument("--outdir", default="results")
-    p.add_argument("--machine", default=None, help="Filter by machine instance (partial match)")
+    p.add_argument("--machine", default=None, help="Machine ID for per-machine analysis (uses 12hr window)")
+    p.add_argument("--metric1", default="Disk IO", help="Name for metric 1")
+    p.add_argument("--metric2", default="Power", help="Name for metric 2")
+    p.add_argument("--hours", type=int, default=12, help="Hours window for analyze_pair (default: 12)")
     args = p.parse_args()
+
+    if args.machine:
+        analyze_pair(args.machine, args.file1, args.file2, args.metric1, args.metric2, args.outdir, args.hours)
+        return
 
     os.makedirs(args.outdir, exist_ok=True)
 
-    if args.machine:
-        print(f"Loading data for machine: {args.machine}")
-    else:
-        print("Loading data (all machines)")
+    print("Loading data (all machines)")
     
-    df1 = load_prometheus_file(args.file1, machine=args.machine)
-    df2 = load_prometheus_file(args.file2, machine=args.machine)
+    df1 = load_prometheus_file(args.file1)
+    df2 = load_prometheus_file(args.file2)
 
     print(f"Loaded {len(df1)} points from file1, {len(df2)} points from file2")
     
     if df1.empty or df2.empty:
-        print("Warning: One or both dataframes are empty. Check machine filter or data files.")
+        print("Warning: One or both dataframes are empty. Check data files.")
         return
 
     print("Aligning metrics")

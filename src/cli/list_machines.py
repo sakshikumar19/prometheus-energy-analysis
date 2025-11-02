@@ -1,3 +1,5 @@
+# python -m src.cli.list_machines --file data/node_disk_io_time_seconds_total/1754002800.0.json.gz
+
 import argparse
 from src.load_prometheus import list_machines
 
@@ -14,4 +16,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
