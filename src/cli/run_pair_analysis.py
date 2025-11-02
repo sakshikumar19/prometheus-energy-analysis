@@ -15,15 +15,24 @@ def main():
     p.add_argument("--file2", required=True)
     p.add_argument("--window", type=int, default=30)
     p.add_argument("--outdir", default="results")
+    p.add_argument("--machine", default=None, help="Filter by machine instance (partial match)")
     args = p.parse_args()
 
     os.makedirs(args.outdir, exist_ok=True)
 
-    print("Loading data")
-    df1 = load_prometheus_file(args.file1)
-    df2 = load_prometheus_file(args.file2)
+    if args.machine:
+        print(f"Loading data for machine: {args.machine}")
+    else:
+        print("Loading data (all machines)")
+    
+    df1 = load_prometheus_file(args.file1, machine=args.machine)
+    df2 = load_prometheus_file(args.file2, machine=args.machine)
 
     print(f"Loaded {len(df1)} points from file1, {len(df2)} points from file2")
+    
+    if df1.empty or df2.empty:
+        print("Warning: One or both dataframes are empty. Check machine filter or data files.")
+        return
 
     print("Aligning metrics")
     aligned = align_metrics(df1, df2)
