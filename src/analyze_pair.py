@@ -1,5 +1,5 @@
 from src.load_prometheus import load_prometheus_file
-from src.sync_metrics import align_metrics
+from src.sync_metrics import align_metrics, to_rate
 from src.correlations import compute_correlations
 from src.visualization import plot_12hr_scatter, plot_12hr_heatmap
 import os
@@ -14,6 +14,9 @@ def analyze_pair(machine_id, file1, file2, metric1_name="Disk IO", metric2_name=
     if df1.empty or df2.empty:
         print(f"No data for machine: {machine_id}")
         return None
+
+    df1 = to_rate(df1, metric1_name)
+    df2 = to_rate(df2, metric2_name)
 
     aligned = align_metrics(df1, df2)
     if aligned.empty:

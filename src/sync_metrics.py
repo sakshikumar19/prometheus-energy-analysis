@@ -1,6 +1,33 @@
 import pandas as pd
 import numpy as np
 
+def _is_cumulative(df, metric_name=""):
+    name_lower = metric_name.lower()
+    if "cumulative" in name_lower or "_total" in name_lower or name_lower.endswith("_total"):
+        return True
+    if df.empty or len(df) < 2:
+        return False
+    sorted_df = df.sort_values("datetime")
+    diffs = sorted_df["value"].diff()
+    non_decreasing = (diffs >= 0).sum()
+    return non_decreasing / len(diffs) > 0.95
+
+def to_rate(df, metric_name=""):
+    if df.empty or len(df) < 2:
+        return df
+    if not _is_cumulative(df, metric_name):
+        return df
+    
+    df = df.sort_values("datetime").copy()
+    dt_diff = df["datetime"].diff().dt.total_seconds()
+    value_diff = df["value"].diff()
+    
+    rate = value_diff / dt_diff
+    rate[rate < 0] = 0
+    
+    df["value"] = rate
+    return df.dropna(subset=["value"]).reset_index(drop=True)
+
 def infer_freq(df1, df2):
     if df1.empty or df2.empty:
         return "1s"
