@@ -11,8 +11,22 @@ def normalize_instance_name(instance):
             return parts[0]
     return instance
 
+def _open_prometheus_file(file_path):
+    # Handle either plain .json or gzipped .json
+    try:
+        with open(file_path, "rb") as fb:
+            magic = fb.read(2)
+        is_gzip = magic == b"\x1f\x8b"
+    except FileNotFoundError:
+        raise
+
+    if is_gzip:
+        return gzip.open(file_path, "rt", encoding="utf-8")
+    return open(file_path, "rt", encoding="utf-8")
+
+
 def load_prometheus_file(file_path, aggregate=True, machine=None):
-    with gzip.open(file_path, "rt", encoding="utf-8") as f:
+    with _open_prometheus_file(file_path) as f:
         data = json.load(f)
 
     results = data.get("data", {}).get("result", [])
