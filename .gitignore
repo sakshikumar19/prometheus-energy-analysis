@@ -4,3 +4,4 @@ src/__pycache__/
 src/cli/__pycache__/
 .pytest_cache/
 sanity_check.py
+run_all_analyses.py

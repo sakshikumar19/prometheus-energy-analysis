@@ -1,0 +1,7 @@
+Machine: wn1205080
+Metric 1: Power Usage Cumulative
+Metric 2: Load (1m)
+Window: 2025-07-31 23:00:00 to 2025-08-01 10:00:00
+Pearson r: 0.0039 (p=0.8874)
+Spearman r: 0.0018 (p=0.9468)
+N: 1321
