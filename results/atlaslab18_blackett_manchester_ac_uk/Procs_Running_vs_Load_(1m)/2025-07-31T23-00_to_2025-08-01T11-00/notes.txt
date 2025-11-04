@@ -1,0 +1,7 @@
+Machine: atlaslab18.blackett.manchester.ac.uk
+Metric 1: Procs Running
+Metric 2: Load (1m)
+Window: 2025-07-31 23:00:00 to 2025-08-01 11:00:00
+Pearson r: -0.0275 (p=0.2960)
+Spearman r: -0.0342 (p=0.1942)
+N: 1441

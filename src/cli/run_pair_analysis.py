@@ -1,5 +1,5 @@
 # Per-machine analysis (12-hour window default)
-# python -m src.cli.run_pair_analysis --file1 data/node_disk_io_time_seconds_total/1754002800.0.json.gz --file2 data/rPDULoadStatusLoad/1754002800.0.json.gz --machine "bohr3226.tier2.hep.manchester.ac.uk:9100" 
+# python -m src.cli.run_pair_analysis --file1 data/node_disk_io_time_seconds_total/1754002800.0.json.gz --file2 data/rPDULoadStatusLoad/1754002800.0.json.gz --machine "pu38010.pn.tier2.hep.manchester.ac.uk" 
 
 # Full analysis (all machines, no machine filter)
 # python -m src.cli.run_pair_analysis --file1 data/node_disk_io_time_seconds_total/1754002800.0.json.gz --file2 data/rPDULoadStatusLoad/1754002800.0.json.gz --window 30
@@ -24,10 +24,22 @@ def main():
     p.add_argument("--metric1", default="Disk IO", help="Name for metric 1")
     p.add_argument("--metric2", default="Power", help="Name for metric 2")
     p.add_argument("--hours", type=int, default=12, help="Hours window for analyze_pair (default: 12)")
+    p.add_argument("--start", help="ISO start time (UTC), e.g. 2025-07-31T23:00:00Z")
+    p.add_argument("--end", help="ISO end time (UTC), e.g. 2025-08-01T11:00:00Z")
     args = p.parse_args()
 
     if args.machine:
-        analyze_pair(args.machine, args.file1, args.file2, args.metric1, args.metric2, args.outdir, args.hours)
+        analyze_pair(
+            args.machine,
+            args.file1,
+            args.file2,
+            args.metric1,
+            args.metric2,
+            args.outdir,
+            args.hours,
+            window_start=args.start,
+            window_end=args.end,
+        )
         return
 
     os.makedirs(args.outdir, exist_ok=True)
