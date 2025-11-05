@@ -1,0 +1,7 @@
+Machine: wn3803100
+Metric 1: Power Delta (1min)
+Metric 2: Disk IO Time
+Window: 2025-07-31 23:00:00 to 2025-08-01 10:59:00
+Pearson r: -0.1889 (p=0.0000)
+Spearman r: -0.1866 (p=0.0000)
+N: 720

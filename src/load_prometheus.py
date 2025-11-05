@@ -1,6 +1,7 @@
 import gzip
 import json
 import pandas as pd
+import os
 
 def normalize_instance_name(instance):
     if not instance:
@@ -26,6 +27,27 @@ def _open_prometheus_file(file_path):
 
 
 def load_prometheus_file(file_path, aggregate=True, machine=None):
+    # CSV power deltas (wide format: first col 'machine', rest epoch-second columns)
+    if file_path.lower().endswith('.csv'):
+        df = pd.read_csv(file_path)
+        if df.empty:
+            return df
+        if 'machine' not in df.columns:
+            return pd.DataFrame(columns=["datetime", "value"])  # unknown layout
+        if machine:
+            mask = df['machine'].astype(str).str.contains(machine, na=False)
+            df = df[mask]
+        # melt to long
+        long_df = df.melt(id_vars=['machine'], var_name='timestamp', value_name='value')
+        if long_df.empty:
+            return pd.DataFrame(columns=["datetime", "value"]) 
+        # coerce types
+        long_df['timestamp'] = pd.to_numeric(long_df['timestamp'], errors='coerce')
+        long_df['value'] = pd.to_numeric(long_df['value'], errors='coerce')
+        long_df = long_df.dropna(subset=['timestamp', 'value'])
+        long_df['datetime'] = pd.to_datetime(long_df['timestamp'], unit='s')
+        return long_df[["datetime", "value"]].sort_values('datetime').reset_index(drop=True)
+
     with _open_prometheus_file(file_path) as f:
         data = json.load(f)
 

@@ -5,3 +5,4 @@ src/cli/__pycache__/
 .pytest_cache/
 sanity_check.py
 run_all_analyses.py
+run_power_delta_analyses.py

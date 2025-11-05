@@ -1,0 +1,7 @@
+Machine: wn3803100
+Metric 1: Power Delta (60min)
+Metric 2: Load (1m)
+Window: 2025-07-31 23:00:00 to 2025-08-01 10:00:00
+Pearson r: 0.9993 (p=0.0000)
+Spearman r: 0.6582 (p=0.0200)
+N: 12

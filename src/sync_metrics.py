@@ -31,19 +31,22 @@ def to_rate(df, metric_name=""):
 def infer_freq(df1, df2):
     if df1.empty or df2.empty:
         return "1s"
-    
+
     diff1 = df1["datetime"].diff().median()
     diff2 = df2["datetime"].diff().median()
-    freq_sec = min(diff1.total_seconds(), diff2.total_seconds())
-    
-    if freq_sec < 5:
-        return "5s"
-    elif freq_sec < 30:
-        return "30s"
-    elif freq_sec < 60:
-        return "1min"
-    else:
-        return "1min"
+    try:
+        s1 = diff1.total_seconds()
+        s2 = diff2.total_seconds()
+    except Exception:
+        return "60s"
+
+    # Use the coarser cadence so sparse series aren't oversampled
+    freq_sec = max(s1, s2)
+    if not pd.notna(freq_sec) or freq_sec <= 0:
+        freq_sec = 60
+
+    # Resample alias like "3600s" works with pandas
+    return f"{int(round(freq_sec))}s"
 
 def align_metrics(df1, df2, freq=None, tol=None):
     if df1.empty or df2.empty:
