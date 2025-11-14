@@ -55,3 +55,11 @@ If the script prints "No results (empty or unaligned data)", verify:
 - `--machine` matches the `instance` string in both files.
 - The two series overlap in time for the selected window.
 - The input follows Prometheus matrix JSON format (`data.result[].values`).
+
+## AI Assistance
+
+During development, I employed a locally configured AI assistant tuned with the following SYSTEM PROMPT:
+
+> *“You are a code auditor. Provide micro-suggestions focused on clarity, naming consistency, structure, layout and minor completeness gaps. Avoid major refactors or architectural changes.”*
+
+This setup allowed the AI to consistently provide concise, review-style feedback on test-suite structure for the analysis pipeline and coverage checks for edge cases (like empty or malformed Prometheus result arrays)
